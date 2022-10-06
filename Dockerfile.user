@@ -1,0 +1,23 @@
+FROM ubuntu-bionic-obmc
+
+# Add user
+ARG user
+ARG uid
+ARG gid
+ARG hostname
+
+ENV BUILD_HOSTNAME $hostname
+ENV USER $user
+
+RUN groupadd -f -r -g $gid g$user
+
+RUN useradd $user -l -u $uid -g $gid -d /var/$user -m -s /bin/bash
+
+# Config git for stg
+RUN su $user -c "git config --global user.name $user"
+RUN su $user -c "git config --global user.email $user@bella.vita"
+
+# Add user to sudoers
+RUN echo "$user ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers
+
+USER $user
