@@ -1,6 +1,8 @@
 #!/bin/sh
 
-[ -r "./docker.conf" ] && . ./docker.conf
+curdir=$(dirname $0)
+
+[ -r "$curdir/docker.conf" ] && . $curdir/docker.conf
 
 [ -z "$docker_img" ] && {
     echo "Undefined variable docker_img in docker.conf"
@@ -27,16 +29,16 @@ if [ ! -d "`realpath "$workdir"`" ]; then
 fi
 
 if [ -z "`docker images $docker_img --format '{{.Repository}}'`" ]; then
-    if [ -x ./build.sh ]; then
+    if [ -x $curdir/build.sh ]; then
         echo "Trying to build docker $docker_img"
-        ./build.sh
+        $curdir/build.sh
     fi
 fi
 
 if [ -z "`docker images $user_docker_img --format '{{.Repository}}'`" ]; then
-    if [ -x ./build-user.sh ]; then
+    if [ -x $curdir/build-user.sh ]; then
         echo "Trying to build docker $user_docker_img"
-        ./build-user.sh
+        $curdir/build-user.sh
     fi
 fi
 
