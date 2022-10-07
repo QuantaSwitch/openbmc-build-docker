@@ -17,6 +17,8 @@ RUN apt update && \
 
 RUN apt install -y locales
 
+RUN apt install -y sudo
+
 RUN locale-gen en_US.UTF-8
 RUN update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
