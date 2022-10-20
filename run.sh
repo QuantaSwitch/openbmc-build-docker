@@ -43,8 +43,9 @@ if [ -z "`docker images $user_docker_img --format '{{.Repository}}'`" ]; then
 fi
 
 wd=$(realpath $workdir)
+home=$HOME
 
-docker run -it -v $wd:$wd -w $wd $user_docker_img /bin/bash
+docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash
 
 # clean up
 echo "Clean up docker container from $user_docker_img"
