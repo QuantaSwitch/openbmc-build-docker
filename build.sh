@@ -1,6 +1,11 @@
 #!/bin/sh
 
 curdir=$(dirname $0)
+timezone=$(echo $TZ)
+
+[ -z "$timezone" ] && timezone=`cat /etc/timezone`
+
+[ -z "$timezone" ] && timezone=Etc/UTC
 
 [ -r "$curdir/docker.conf" ] && . $curdir/docker.conf
 
@@ -9,5 +14,5 @@ curdir=$(dirname $0)
     exit 1
 }
 
-docker build -t $docker_img $curdir
+docker build --build-arg timezone=$timezone -t $docker_img $curdir
 

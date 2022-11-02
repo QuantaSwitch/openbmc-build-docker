@@ -1,8 +1,12 @@
 FROM ubuntu:bionic
 
+ARG timezone
+
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Etc/UTC
+ENV TZ=${timezone:-Etc/UTC}
 ENV LANG=en_US.UTF-8
+
+RUN echo "Setting TZ=${TZ}"
 
 RUN apt update && \
     apt install -y \
