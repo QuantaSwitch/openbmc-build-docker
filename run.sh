@@ -19,6 +19,8 @@ usage()
 }
 
 workdir=$1
+shift
+cmd=$*
 
 if [ "$#" -lt "1" ]; then
     usage
@@ -45,7 +47,7 @@ fi
 wd=$(realpath $workdir)
 home=$HOME
 
-docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash
+docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash -c "$cmd"
 
 # clean up
 echo "Clean up docker container from $user_docker_img"
