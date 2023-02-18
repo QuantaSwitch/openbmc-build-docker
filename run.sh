@@ -14,17 +14,16 @@ user_docker_img="$(id -un)/$docker_img"
 
 usage()
 {
-    echo "Usage: $(basename $0) [workdir]"
+    echo "Usage: $(basename $0) workdir [exec commands]"
     exit 1
 }
-
-workdir=$1
-shift
-cmd=$*
 
 if [ "$#" -lt "1" ]; then
     usage
 fi
+
+workdir=$1
+shift
 
 if [ ! -d "`realpath "$workdir"`" ]; then
     usage
@@ -47,7 +46,11 @@ fi
 wd=$(realpath $workdir)
 home=$HOME
 
-docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash -c "$cmd"
+if [ "$#" -ge "1" ]; then
+    docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash -c "$*"
+else
+    docker run -it -e HOME=$HOME -v $home:$home -w $wd $user_docker_img /bin/bash
+fi
 
 # clean up
 echo "Clean up docker container from $user_docker_img"
