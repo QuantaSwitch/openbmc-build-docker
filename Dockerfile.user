@@ -1,4 +1,4 @@
-FROM ubuntu-bionic-obmc
+FROM ubuntu-jammy-obmc
 
 # Add user
 ARG user
